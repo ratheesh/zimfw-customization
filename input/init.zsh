@@ -57,6 +57,12 @@ fi
 }
 zle -N prepend-sudo
 
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+
+
 # Keybinds for emacs and vi insert mode
 for keymap in 'emacs' 'viins'; do
 	bindkey -M "$keymap" "$key_info[Insert]" overwrite-mode
@@ -65,6 +71,9 @@ for keymap in 'emacs' 'viins'; do
 
 	bindkey -M "$keymap" "$key_info[Left]" backward-char
 	bindkey -M "$keymap" "$key_info[Right]" forward-char
+
+	bindkey "^[[A" up-line-or-beginning-search # Up
+	bindkey "^[[B" down-line-or-beginning-search # Down
 
 	# Expand history on space.
 	bindkey -M "$keymap" ' ' magic-space
