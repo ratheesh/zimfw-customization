@@ -22,6 +22,7 @@
 # utilities -> TODO: move to custom module
 expand-or-complete-with-dots() {
     print -Pn "%{%B%F{red}......%f%b%}"
+    sleep 0.15
     zle expand-or-complete
     zle redisplay
 }
