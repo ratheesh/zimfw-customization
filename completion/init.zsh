@@ -50,7 +50,8 @@ zstyle ':completion:*:warnings' format '%F{red}-- no matches found --%f'
 zstyle ':completion:*' format '%F{yellow}-- %d --%f'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' verbose yes
-# zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|?=**'
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|?=**'
+# zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]}' 'm:{[:upper:]}={[:lower:]}'  'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
 # directories
 if (( ! ${+LS_COLORS} )); then
@@ -240,5 +241,9 @@ zstyle ':completion:*:(ssh|ssh-copy-id|scp|rsync):*:hosts-ipaddr' ignored-patter
 
 # partial match coloring
 zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*=38;5;60=1;38;5;129=38;5;60}:${(s.:.)LS_COLORS}" "ma=3;38;5;184;48;5;22")'
+
+# docker autocompletion rules
+zstyle ':completion:*:*:docker:*'   option-stacking yes
+zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
 # End of File
