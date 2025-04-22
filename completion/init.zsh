@@ -12,7 +12,7 @@ if [[ ${TERM} == 'dumb' ]]; then
 fi
 
 # load and initialize the completion system
-autoload -Uz compinit && compinit -C -d "${ZDOTDIR:-${HOME}}/${zcompdump_file:-.zcompdump}"
+# autoload -Uz compinit && compinit -C -d "${ZDOTDIR:-${HOME}}/${zcompdump_file:-.zcompdump}"
 
 # set any compdefs
 # source ${0:h}/compdefs.zsh
@@ -158,8 +158,8 @@ zstyle ':completion:*:*:*:*:processes' force-list always
 zstyle ':completion:*:options' list-colors '=^(-- *)=34'
 
 #generic completion with --help
-compdef _gnu_generic gcc
-compdef _gnu_generic gdb
+# compdef _gnu_generic gcc
+# compdef _gnu_generic gdb
 
 # prevent a tab from being inserted when there are no characters to the left of the cursor.
 zstyle ':completion:*' insert-tab false
