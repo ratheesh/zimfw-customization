@@ -30,23 +30,24 @@ expand-or-complete-with-dots() {
 zle -N expand-or-complete-with-dots
 
 fancy-ctrl-z () {
-if [[ $#BUFFER -eq 0 ]]; then
-	BUFFER="fg"
-	zle accept-line
-else
-	zle push-input
-	zle clear-screen
-fi
+    if [[ $#BUFFER -eq 0 ]]; then
+        BUFFER="fg"
+        zle accept-line
+    else
+        zle push-input
+        zle clear-screen
+    fi
 }
 zle -N fancy-ctrl-z
 
 # Expands .... to ../..
 double-dot-expand() {
-if [[ ${LBUFFER} == *.. ]]; then
-	LBUFFER+='/..'
-else
-	LBUFFER+='.'
-fi
+    emulate -LR zsh
+    if [[ ${LBUFFER} == *.. ]]; then
+        LBUFFER+='/..'
+    else
+        LBUFFER+='.'
+    fi
 }
 zle -N double-dot-expand
 
