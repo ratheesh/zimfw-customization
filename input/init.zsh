@@ -52,7 +52,7 @@ double-dot-expand() {
 zle -N double-dot-expand
 
 # Inserts 'sudo ' at the beginning of the line.
-function prepend-sudo {
+function prepend-sudo() {
 if [[ "$BUFFER" != su(do|)\ * ]]; then
 	BUFFER="sudo $BUFFER"
 	(( CURSOR += 5 ))
