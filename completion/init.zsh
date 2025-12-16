@@ -211,9 +211,9 @@ zstyle -e ':completion:*:users' users 'local user; getent passwd | while IFS=: r
 # zstyle ':completion:*' special-dirs true
 
 # fault tolerance
-# zstyle ':completion:*' completer _complete _correct _approximate
+zstyle ':completion:*' completer _complete _correct _approximate
 # (1 error on 3 characters)
-# zstyle -e ':completion:*:approximate:*' max-errors 'reply=( $(( ($#PREFIX+$#SUFFIX)/3 )) numeric )'
+zstyle -e ':completion:*:approximate:*' max-errors 'reply=( $(( ($#PREFIX+$#SUFFIX)/3 )) numeric )'
 
 # smart editor completion
 zstyle ':completion:*:(nano|vim|nvim|vi|emacs|e):*' ignored-patterns '*.(wav|mp3|flac|ogg|mp4|avi|mkv|webm|iso|dmg|so|o|a|bin|exe|dll|pcap|7z|zip|tar|gz|bz2|rar|deb|pkg|gzip|pdf|mobi|epub|png|jpeg|jpg|gif)'
@@ -245,5 +245,14 @@ zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:
 # docker autocompletion rules
 zstyle ':completion:*:*:docker:*'   option-stacking yes
 zstyle ':completion:*:*:docker-*:*' option-stacking yes
+
+zstyle ':completion:*' matcher-list 'm:{A-ZÄÖÜa-zäöü}={a-zäöüA-ZÄÖÜ} m:[-_]=[-_] r:|[-_]=** r:|=*' '+l:|=*'
+
+# aliases
+alias mkdir='mkdir -pv'
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias rm='rm -iv'
+alias rmdir='rmdir -v'
 
 # End of File
