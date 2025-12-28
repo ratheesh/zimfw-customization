@@ -21,7 +21,7 @@
 
 # utilities -> TODO: move to custom module
 expand-or-complete-with-dots() {
-    emulate -LR zsh
+    # emulate -LR zsh
     print -Pn "%{%B%F{red}......%f%b%}"
     sleep 0.15
     zle expand-or-complete
@@ -42,7 +42,7 @@ zle -N fancy-ctrl-z
 
 # Expands .... to ../..
 double-dot-expand() {
-    emulate -LR zsh
+    # emulate -LR zsh
     if [[ ${LBUFFER} == *.. ]]; then
         LBUFFER+='/..'
     else
