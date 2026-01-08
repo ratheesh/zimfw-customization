@@ -119,11 +119,13 @@ setopt AUTO_PARAM_SLASH
 # Show message while waiting for completion
 # zstyle ':completion:*' show-completer true
 
-zstyle ':completion:*:corrections'  format '%B%F{60}---%f%b %F{3}%d %F{9}(errors: %e)%f %B%F{60}---%f%b'
-zstyle ':completion:*:descriptions' format '%B%F{60}---%f%b %F{65}%d%f %B%F{60}---%f%b'
-zstyle ':completion:*:messages'     format '%B%F{60}---%f%b %F{65}%d%f %B%F{60}---%f%b'
-zstyle ':completion:*:warnings'     format '%B%F{60}---%f%b %F{9}no matches found%f %B%F{60}---%f%b'
-zstyle ':completion:*'              format '%B%F{60}---%f%b %F{65}%d%f %B%F{60}---%f%b'
+zstyle ':completion:*:options' auto-description $'\n%d'
+zstyle ':completion:*:corrections' format $' \n%F{green}»» %d (errors: %e) ««%f'
+zstyle ':completion:*:descriptions' format $' \n%F{cyan}»» %d ««%f'
+zstyle ':completion:*:messages' format $' \n%F{purple} »» %d ««%f'
+zstyle ':completion:*:warnings' format $' \n%F{red}»» no matches found ««%f'
+zstyle ':completion:*:default' list-prompt $'\n%S%M matches%s'
+zstyle ':completion:*' format $' \n%F{yellow}»» %d ««%f'
 
 # zstyle ':completion:*:default' list-prompt '%S%M matches%s'
 zstyle ':completion:*' list-prompt %SAt %p: Hit \<TAB\> for more, or a character to insert%s
