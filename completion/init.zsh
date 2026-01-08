@@ -17,6 +17,16 @@ fi
 # set any compdefs
 # source ${0:h}/compdefs.zsh
 
+if (( $+commands[tput] ));then
+  bold=$(tput bold)
+  italic=$(tput sitm)
+  reset=$(tput sgr0)
+else
+  bold=''
+  italic=''
+  reset=''
+fi
+
 #
 # zsh options
 #
@@ -120,12 +130,12 @@ setopt AUTO_PARAM_SLASH
 # zstyle ':completion:*' show-completer true
 
 zstyle ':completion:*:options' auto-description $'\n%d'
-zstyle ':completion:*:corrections' format $' \n%F{green}»» %d (errors: %e) ««%f'
-zstyle ':completion:*:descriptions' format $' \n%F{cyan}»» %d ««%f'
-zstyle ':completion:*:messages' format $' \n%F{purple} »» %d ««%f'
-zstyle ':completion:*:warnings' format $' \n%F{red}»» no matches found ««%f'
+zstyle ':completion:*:corrections' format $' \n%F{1}🙤 %F{green}%d (errors: %e)%F{1}🙦 %f'
+zstyle ':completion:*:descriptions' format $' \n%F{1}🙤 %F{cyan}%d%F{1}🙦 %f'
+zstyle ':completion:*:messages' format $' \n%F{1}🙤 %F{purple}%d%F{1}🙦 %f'
+zstyle ':completion:*:warnings' format $' \n%F{1}🙤 %F{red} no matches found%F{1}🙦 %f'
 zstyle ':completion:*:default' list-prompt $'\n%S%M matches%s'
-zstyle ':completion:*' format $' \n%F{yellow}»» %d ««%f'
+zstyle ':completion:*' format $' \n%F{1}🙤 %{\e[0;3m%}%F{102}%d%{\e[0m%}%F{1}🙦 %f'
 
 # zstyle ':completion:*:default' list-prompt '%S%M matches%s'
 zstyle ':completion:*' list-prompt %SAt %p: Hit \<TAB\> for more, or a character to insert%s
