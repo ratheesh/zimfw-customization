@@ -52,16 +52,18 @@ setopt NO_LIST_BEEP
 zstyle ':completion:*:*:*:*:*' menu select
 zstyle ':completion:*:matches' group yes
 zstyle ':completion:*:options' description yes
-zstyle ':completion:*:options' auto-description '%d'
-zstyle ':completion:*:corrections' format '%F{green}-- %d (errors: %e) --%f'
-zstyle ':completion:*:descriptions' format '%F{yellow}-- %d --%f'
-zstyle ':completion:*:messages' format '%F{purple}-- %d --%f'
-zstyle ':completion:*:warnings' format '%F{red}-- no matches found --%f'
-zstyle ':completion:*' format '%F{yellow}-- %d --%f'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' verbose yes
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' '+r:|?=**'
-# zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]}' 'm:{[:upper:]}={[:lower:]}'  'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*:options' auto-description $'\n%d'
+zstyle ':completion:*:corrections' format $' \n%F{1}🙤 %F{green}%d (errors: %e)%F{1}🙦 %f'
+zstyle ':completion:*:descriptions' format $' \n%F{1}🙤 %F{cyan}%d%F{1}🙦 %f'
+zstyle ':completion:*:messages' format $' \n%F{1}🙤 %F{purple}%d%F{1}🙦 %f'
+zstyle ':completion:*:warnings' format $' \n%F{1}🙤 %F{red} no matches found%F{1}🙦 %f'
+zstyle ':completion:*:default' list-prompt $'\n%S%M matches%s'
+zstyle ':completion:*' format $'\n %F{1}🙤 %{\e[0;3m%}%F{102}%d%{\e[0m%}%F{1}🙦 %f'
+
+# Show message while waiting for completion
+# zstyle ':completion:*' show-completer true
 
 # directories
 if (( ! ${+LS_COLORS} )); then
@@ -125,17 +127,6 @@ unsetopt FLOW_CONTROL
 
 # If completed parameter is a directory, add a trailing slash.
 setopt AUTO_PARAM_SLASH
-
-# Show message while waiting for completion
-# zstyle ':completion:*' show-completer true
-
-zstyle ':completion:*:options' auto-description $'\n%d'
-zstyle ':completion:*:corrections' format $' \n%F{1}🙤 %F{green}%d (errors: %e)%F{1}🙦 %f'
-zstyle ':completion:*:descriptions' format $' \n%F{1}🙤 %F{cyan}%d%F{1}🙦 %f'
-zstyle ':completion:*:messages' format $' \n%F{1}🙤 %F{purple}%d%F{1}🙦 %f'
-zstyle ':completion:*:warnings' format $' \n%F{1}🙤 %F{red} no matches found%F{1}🙦 %f'
-zstyle ':completion:*:default' list-prompt $'\n%S%M matches%s'
-zstyle ':completion:*' format $' \n%F{1}🙤 %{\e[0;3m%}%F{102}%d%{\e[0m%}%F{1}🙦 %f'
 
 # zstyle ':completion:*:default' list-prompt '%S%M matches%s'
 zstyle ':completion:*' list-prompt %SAt %p: Hit \<TAB\> for more, or a character to insert%s
@@ -258,7 +249,7 @@ zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:
 zstyle ':completion:*:*:docker:*'   option-stacking yes
 zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
-zstyle ':completion:*' matcher-list 'm:{A-ZÄÖÜa-zäöü}={a-zäöüA-ZÄÖÜ} m:[-_]=[-_] r:|[-_]=** r:|=*' '+l:|=*'
+zstyle ':completion:*' matcher-list 'm:{A-ZÄÖÜa-zäöü}={a-zäöüA-ZÄÖÜ} m:[.-_]=[_-.] r:|[.-_]=** r:|=*' '+l:|=*'
 
 # aliases
 alias mkdir='mkdir -pv'
