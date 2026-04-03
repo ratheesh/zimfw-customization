@@ -54,7 +54,7 @@ zstyle ':completion:*:matches' group yes
 zstyle ':completion:*:options' description yes
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' verbose yes
-zstyle ':completion:*:options' auto-description $'   %d'
+zstyle ':completion:*:options' auto-description $'   %F{1}🙤 %F{red}%d%F{1}🙦 %f'
 zstyle ':completion:*:corrections' format $'    %F{1}🙤 %F{green}%d (errors: %e)%F{1}🙦 %f'
 zstyle ':completion:*:descriptions' format $'    %F{1}🙤 %F{cyan}%d%F{1}🙦 %f'
 zstyle ':completion:*:messages' format $'    %F{1}🙤 %F{purple}%d%F{1}🙦 %f'
