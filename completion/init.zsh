@@ -58,7 +58,7 @@ zstyle ':completion:*:options' auto-description $'   %F{1}🙤 %F{red}%d%F{1}�
 zstyle ':completion:*:corrections' format $'    %F{1}🙤 %F{green}%d (errors: %e)%F{1}🙦 %f'
 zstyle ':completion:*:descriptions' format $'    %F{1}🙤 %F{cyan}%d%F{1}🙦 %f'
 zstyle ':completion:*:messages' format $'    %F{1}🙤 %F{purple}%d%F{1}🙦 %f'
-zstyle ':completion:*:warnings' format $'    %F{1}🙤 %F{red} no matches found%F{1}🙦 %f'
+zstyle ':completion:*:warnings' format $'    %F{4}🙤 %F{red} no matches found %F{4}🙦 %f'
 zstyle ':completion:*:default' list-prompt $'    %S%M matches%s'
 zstyle ':completion:*' format $'    %F{1}🙤 %{\e[0;3m%}%F{102}%d%{\e[0m%}%F{1}🙦 %f'
 
