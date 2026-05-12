@@ -243,7 +243,7 @@ zstyle ':completion:*:(ssh|ssh-copy-id|scp|rsync):*:hosts-domain' ignored-patter
 zstyle ':completion:*:(ssh|ssh-copy-id|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
 
 # partial match coloring
-zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*=38;5;60=1;38;5;129=38;5;60}:${(s.:.)LS_COLORS}" "ma=3;38;5;214;48;5;22")'
+zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*=38;5;60=1;38;5;129=38;5;60}:${(s.:.)LS_COLORS}" "ma=3;38;5;2;48;5;234")'
 
 # docker autocompletion rules
 zstyle ':completion:*:*:docker:*'   option-stacking yes
