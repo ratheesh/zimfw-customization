@@ -105,6 +105,34 @@ zstyle ':completion:*:rm:*' file-patterns '*:all-files'
 zstyle -e ':completion:*:*:ssh:*:my-accounts' users-hosts \
   '[[ -f ${HOME}/.ssh/config && ${key} == hosts ]] && key=my_hosts reply=()'
 
+#----------------------------- Git completion -----------------------------
+zstyle ':completion:*:*:git*:*:modified-files'                group-name 'modified'
+zstyle ':completion:*:*:git*:*:deleted-files'                 group-name 'deleted'
+zstyle ':completion:*:*:git*:*:untracked-files'               group-name 'new'
+zstyle ':completion:*:*:git*:*:other-files'                   group-name 'new'
+zstyle ':completion:*:*:git*:*:unmerged-files'                group-name 'unmerged'
+zstyle ':completion:*:*:git*:*:changed-in-index-files'        group-name 'staged'
+zstyle ':completion:*:*:git*:*:changed-in-working-tree-files' group-name 'unstaged'
+zstyle ':completion:*:*:git*:*:cached-files'                  group-name 'staged'
+zstyle ':completion:*:*:git*:*:heads'                         group-name 'branches'
+zstyle ':completion:*:*:git*:*:heads-local'                   group-name 'branches'
+zstyle ':completion:*:*:git*:*:heads-remote'                  group-name 'remote-branches'
+zstyle ':completion:*:*:git*:*:remote-branches'               group-name 'remote-branches'
+zstyle ':completion:*:*:git*:*:remotes'                       group-name 'remotes'
+zstyle ':completion:*:*:git*:*:tags'                          group-name 'tags'
+zstyle ':completion:*:*:git*:*:commit-tags'                   group-name 'tags'
+zstyle ':completion:*:*:git*:*:stashes'                       group-name 'stashes'
+zstyle ':completion:*:*:git*:*' tag-order \
+  'new untracked-files other-files \
+  modified-files changed-in-working-tree-files \
+  staged changed-in-index-files cached-files \
+  deleted-files unmerged-files \
+  branches heads heads-local \
+  remote-branches heads-remote remotes \
+  tags commit-tags \
+  stashes *'
+
+
 #--------------------------------------------------------------------------------
 # --------------------------- PORTED/CUSTOMIZED CHANGES -------------------------
 #--------------------------------------------------------------------------------
