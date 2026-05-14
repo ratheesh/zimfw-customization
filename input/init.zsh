@@ -125,7 +125,7 @@ for keymap in 'emacs' 'viins'; do
     # bindkey -M "$keymap" "$key_info[Control] " glob-alias
 
     # These are mainly for viins mode
-    bindkey -M "$keymap" "$key_info[Control]W"   backward-delete-word
+    bindkey -M "$keymap" "$key_info[Control]W"   backward-kill-word
     bindkey -M "$keymap" "$key_info[Control]U"   backward-kill-line
     bindkey -M "$keymap" "$key_info[Control]K"   kill-line
 
