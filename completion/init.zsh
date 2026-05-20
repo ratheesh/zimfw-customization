@@ -73,7 +73,6 @@ fi
 # zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-directories
 zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
-zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'expand'
 zstyle ':completion:*' squeeze-slashes true
 
 # enable caching
@@ -89,6 +88,7 @@ zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
 # Man
 zstyle ':completion:*:manuals' separate-sections true
 zstyle ':completion:*:manuals.(^1*)' insert-sections true
+zstyle ':completion:*:man:*' menu yes select
 
 # history
 zstyle ':completion:*:history-words' stop yes
@@ -195,19 +195,6 @@ zstyle ':completion:*:options' list-colors '=^(-- *)=34'
 # prevent a tab from being inserted when there are no characters to the left of the cursor.
 zstyle ':completion:*' insert-tab false
 
-# 0 -- vanilla completion (abc => abc)
-# 1 -- smart case completion (abc => Abc)
-# 2 -- word flex completion (abc => A-big-Car)
-# 3 -- full flex completion (abc => ABraCadabra)
-# zstyle ':completion:*' matcher-list '' \
-#        'm:{a-z\-}={A-Z\_}' \
-#        'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
-#        'r:|?=** m:{a-z\-}={A-Z\_}'
-
-# zstyle ':completion:*' matcher-list 'm:{A-ZÄÖÜa-zäöü}={a-zäöüA-ZÄÖÜ} m:[-_]=[-_] r:|[-_]=** r:|=*' '+l:|=*'
-
-zstyle ':completion:*' matcher-list \ 'm:{[:lower:]}={[:upper:]}' \ '+r:|[._-]=* r:|=*' \ '+l:|=*'
-
 zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' rehash true
 zstyle ':completion:*' use-ip true
@@ -242,7 +229,7 @@ zstyle -e ':completion:*:users' users 'local user; getent passwd | while IFS=: r
 # zstyle ':completion:*' special-dirs true
 
 # fault tolerance
-zstyle ':completion:*' completer _complete _correct _approximate
+zstyle ':completion:*' completer _expand _complete _correct _approximate
 # (1 error on 3 characters)
 zstyle -e ':completion:*:approximate:*' max-errors 'reply=( $(( ($#PREFIX+$#SUFFIX)/3 )) numeric )'
 
@@ -277,7 +264,15 @@ zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:
 zstyle ':completion:*:*:docker:*'   option-stacking yes
 zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
-zstyle ':completion:*' matcher-list 'm:{A-ZÄÖÜa-zäöü}={a-zäöüA-ZÄÖÜ} m:[.-_]=[_-.] r:|[.-_]=** r:|=*' '+l:|=*'
+# 4-level fuzzy: 0=exact, 1=case-insensitive, 2=case+word-boundary, 3=substring-anywhere
+zstyle ':completion:*' matcher-list \
+  '' \
+  'm:{a-zA-ZÄÖÜäöü}={A-Za-zäöüÄÖÜ}' \
+  'm:{a-zA-ZÄÖÜäöü}={A-Za-zäöüÄÖÜ} r:|[.[:digit:]_-]=* r:|=*' \
+  'l:|=* r:|=*'
+
+# Sort files by modification time (newest first) when ambiguous
+zstyle ':completion:*' file-sort modification
 
 # aliases
 alias mkdir='mkdir -pv'
