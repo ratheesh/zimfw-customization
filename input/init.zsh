@@ -60,10 +60,18 @@ fi
 }
 zle -N prepend-sudo
 
-autoload -U up-line-or-beginning-search
-autoload -U down-line-or-beginning-search
+autoload -Uz up-line-or-beginning-search
+autoload -Uz down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
+
+autoload -Uz quote-line quote-region
+zle -N quote-line
+zle -N quote-region
+
+unalias run-help 2>/dev/null
+autoload -Uz run-help
+autoload -Uz run-help-git run-help-ip run-help-openssl run-help-sudo
 
 
 # Keybinds for emacs and vi insert mode
@@ -72,11 +80,22 @@ for keymap in 'emacs' 'viins'; do
     bindkey -M "$keymap" "$key_info[Delete]" delete-char
     bindkey -M "$keymap" "$key_info[Backspace]" backward-delete-char
 
-    bindkey -M "$keymap" "$key_info[Left]" backward-char
+    bindkey -M "$keymap" "$key_info[Left]"  backward-char
     bindkey -M "$keymap" "$key_info[Right]" forward-char
 
-    bindkey "^[[A" up-line-or-beginning-search # Up
-    bindkey "^[[B" down-line-or-beginning-search # Down
+    bindkey -M "$keymap" "$key_info[Up]"   up-line-or-beginning-search
+    bindkey -M "$keymap" "$key_info[Down]" down-line-or-beginning-search
+
+    bindkey -M "$keymap" "$key_info[Home]"    beginning-of-line
+    bindkey -M "$keymap" "$key_info[End]"     end-of-line
+    bindkey -M "$keymap" "$key_info[PageUp]"  up-line-or-history
+    bindkey -M "$keymap" "$key_info[PageDown]" down-line-or-history
+
+    # Ctrl+Left/Right: word movement (xterm-compatible sequences)
+    bindkey -M "$keymap" "^[[1;5D" backward-word
+    bindkey -M "$keymap" "^[[1;5C" forward-word
+    bindkey -M "$keymap" "^[^[[D"  backward-word
+    bindkey -M "$keymap" "^[^[[C"  forward-word
 
     # Expand history on space.
     bindkey -M "$keymap" ' ' magic-space
@@ -117,6 +136,12 @@ for keymap in 'emacs' 'viins'; do
     # Insert 'sudo ' at the beginning of the line.
     bindkey -M "$keymap" "${key_info[Escape]}s" prepend-sudo
 
+    # Quote current line
+    bindkey -M "$keymap" "${key_info[Escape]}'" quote-line
+
+    # Inline help for current command
+    bindkey -M "$keymap" "${key_info[Escape]}h" run-help
+
     autoload -Uz smart-insert-last-word
     zle -N insert-last-word smart-insert-last-word
     bindkey -M "$keymap" "${key_info[Escape]}." insert-last-word
@@ -130,6 +155,10 @@ for keymap in 'emacs' 'viins'; do
     bindkey -M "$keymap" "$key_info[Control]K"   kill-line
 
 done
+
+# Safe paste: neutralize special chars in pasted text
+autoload -Uz bracketed-paste-magic
+zle -N bracketed-paste bracketed-paste-magic
 
 # aliases
 alias mux=tmuxinator
