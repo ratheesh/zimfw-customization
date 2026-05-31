@@ -77,7 +77,6 @@ zstyle ':completion:*' squeeze-slashes true
 
 # enable caching
 zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path "${ZDOTDIR:-${HOME}}/.zcompcache"
 
 # ignore useless commands and functions
 zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec)|prompt_*)'
@@ -177,10 +176,6 @@ zstyle ':completion:*:cd:*' ignored-patterns '(*/)#lost+found'
 zstyle ':completion:*:cd:*' ignored-patterns '(*/)#CVS'
 zstyle ':completion:*:(all-|)files' ignored-patterns '(|*/)CVS'
 
-# Avoid completion of unwanted(mostly default) users
-zstyle ':completion:*:*:*:users' ignored-patterns \
-    $(awk -F: '$3<1000 || $3>60000 {print $1}' /etc/passwd)
-
 zstyle ':completion:*:bd:*' list-colors '=^(-- *)=34'
 
 # Prettier completion for processes
@@ -205,9 +200,6 @@ zstyle -e ':completion:*:hosts' hosts 'reply=(
   ${=${(f)"$(cat /etc/hosts(|)(N) <<(ypcat hosts 2>/dev/null))"}%%\#*}
   ${=${${${${(@M)${(f)"$(cat ~/.ssh/config 2>/dev/null)"}:#Host *}#Host }:#*\**}:#*\?*}}
 )'
-
-# processes
-zstyle ':completion:*:*:*:*:processes' command 'ps -o  pid,user,comm -w -w'
 
 # Kill
 zstyle ':completion::*:kill:*:*' command 'ps xf -U $USER -o pid,%cpu,cmd'
@@ -273,12 +265,5 @@ zstyle ':completion:*' matcher-list \
 
 # Sort files by modification time (newest first) when ambiguous
 zstyle ':completion:*' file-sort modification
-
-# aliases
-alias mkdir='mkdir -pv'
-alias cp='cp -iv'
-alias mv='mv -iv'
-alias rm='rm -iv'
-alias rmdir='rmdir -v'
 
 # End of File

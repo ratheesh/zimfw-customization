@@ -51,12 +51,15 @@ double-dot-expand() {
 }
 zle -N double-dot-expand
 
-# Inserts 'sudo ' at the beginning of the line.
+# Toggles 'sudo ' at the beginning of the line.
 function prepend-sudo() {
-if [[ "$BUFFER" != su(do|)\ * ]]; then
-    BUFFER="sudo $BUFFER"
-    (( CURSOR += 5 ))
-fi
+    if [[ "$BUFFER" == sudo\ * ]]; then
+        BUFFER="${BUFFER#sudo }"
+        (( CURSOR -= 5 ))
+    else
+        BUFFER="sudo $BUFFER"
+        (( CURSOR += 5 ))
+    fi
 }
 zle -N prepend-sudo
 
@@ -74,21 +77,26 @@ autoload -Uz run-help
 autoload -Uz run-help-git run-help-ip run-help-openssl run-help-sudo
 
 
-# Keybinds for emacs and vi insert mode
-for keymap in 'emacs' 'viins'; do
-    bindkey -M "$keymap" "$key_info[Insert]" overwrite-mode
-    bindkey -M "$keymap" "$key_info[Delete]" delete-char
+autoload -Uz copy-earlier-word
+zle -N copy-earlier-word
+
+autoload -Uz smart-insert-last-word
+zle -N insert-last-word smart-insert-last-word
+
+# Keybinds for emacs, vi insert, and vi normal mode
+for keymap in 'emacs' 'viins' 'vicmd'; do
+    bindkey -M "$keymap" "$key_info[Delete]"    delete-char
     bindkey -M "$keymap" "$key_info[Backspace]" backward-delete-char
 
     bindkey -M "$keymap" "$key_info[Left]"  backward-char
     bindkey -M "$keymap" "$key_info[Right]" forward-char
 
-    bindkey -M "$keymap" "$key_info[Up]"   up-line-or-beginning-search
-    bindkey -M "$keymap" "$key_info[Down]" down-line-or-beginning-search
+    bindkey -M "$keymap" "$key_info[Up]"    up-line-or-beginning-search
+    bindkey -M "$keymap" "$key_info[Down]"  down-line-or-beginning-search
 
-    bindkey -M "$keymap" "$key_info[Home]"    beginning-of-line
-    bindkey -M "$keymap" "$key_info[End]"     end-of-line
-    bindkey -M "$keymap" "$key_info[PageUp]"  up-line-or-history
+    bindkey -M "$keymap" "$key_info[Home]"     beginning-of-line
+    bindkey -M "$keymap" "$key_info[End]"      end-of-line
+    bindkey -M "$keymap" "$key_info[PageUp]"   up-line-or-history
     bindkey -M "$keymap" "$key_info[PageDown]" down-line-or-history
 
     # Ctrl+Left/Right: word movement (xterm-compatible sequences)
@@ -97,27 +105,21 @@ for keymap in 'emacs' 'viins'; do
     bindkey -M "$keymap" "^[^[[D"  backward-word
     bindkey -M "$keymap" "^[^[[C"  forward-word
 
-    # Expand history on space.
-    bindkey -M "$keymap" ' ' magic-space
-
     # Clear screen.
     bindkey -M "$keymap" "$key_info[Control]L" clear-screen
 
     # Expand command name to full path.
-    for key in "$key_info[Escape]"{E,e};do
+    for key in "$key_info[Escape]"{E,e}; do
         bindkey -M "$keymap" "$key" expand-cmd-path
     done
 
     # Duplicate the previous word.
-    autoload -Uz copy-earlier-word
-    zle -N copy-earlier-word
-    for key in "$key_info[Escape]"{M,m};do
-        # bindkey -M "$keymap" "$key" copy-prev-shell-word
+    for key in "$key_info[Escape]"{M,m}; do
         bindkey -M "$keymap" "$key" copy-earlier-word
     done
 
     # Use a more flexible push-line.
-    for key in "$key_info[Control]Q" "$key_info[Escape]"{q,Q};do
+    for key in "$key_info[Control]Q" "$key_info[Escape]"{q,Q}; do
         bindkey -M "$keymap" "$key" push-line-or-edit
     done
 
@@ -127,13 +129,7 @@ for keymap in 'emacs' 'viins'; do
     # Display an indicator when completing.
     bindkey -M "$keymap" "$key_info[Control]I" expand-or-complete-with-dots
 
-    # Expand .... to ../..
-    bindkey -M "$keymap" "." double-dot-expand
-
-    # use ctrl-z to toggle the program instance
-    bindkey -M "$keymap" "^Z" fancy-ctrl-z
-
-    # Insert 'sudo ' at the beginning of the line.
+    # Toggle 'sudo ' at the beginning of the line.
     bindkey -M "$keymap" "${key_info[Escape]}s" prepend-sudo
 
     # Quote current line
@@ -142,18 +138,23 @@ for keymap in 'emacs' 'viins'; do
     # Inline help for current command
     bindkey -M "$keymap" "${key_info[Escape]}h" run-help
 
-    autoload -Uz smart-insert-last-word
-    zle -N insert-last-word smart-insert-last-word
     bindkey -M "$keymap" "${key_info[Escape]}." insert-last-word
 
-    # control-space expands all aliases, including global
-    # bindkey -M "$keymap" "$key_info[Control] " glob-alias
+    bindkey -M "$keymap" "$key_info[Control]W" backward-kill-word
+    bindkey -M "$keymap" "$key_info[Control]U" backward-kill-line
+    bindkey -M "$keymap" "$key_info[Control]K" kill-line
 
-    # These are mainly for viins mode
-    bindkey -M "$keymap" "$key_info[Control]W"   backward-kill-word
-    bindkey -M "$keymap" "$key_info[Control]U"   backward-kill-line
-    bindkey -M "$keymap" "$key_info[Control]K"   kill-line
+    # use ctrl-z to toggle the program instance
+    bindkey -M "$keymap" "^Z" fancy-ctrl-z
 
+    # vicmd: skip bindings that conflict with vi normal-mode keys
+    if [[ $keymap != vicmd ]]; then
+        bindkey -M "$keymap" "$key_info[Insert]" overwrite-mode
+        # Expand history on space.
+        bindkey -M "$keymap" ' ' magic-space
+        # Expand .... to ../..
+        bindkey -M "$keymap" "." double-dot-expand
+    fi
 done
 
 # Safe paste: neutralize special chars in pasted text
