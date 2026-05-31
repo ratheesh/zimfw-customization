@@ -11,11 +11,24 @@ if [[ ${TERM} == 'dumb' ]]; then
   return 1
 fi
 
-# load and initialize the completion system
-# autoload -Uz compinit && compinit -C -d "${ZDOTDIR:-${HOME}}/${zcompdump_file:-.zcompdump}"
+# Load zsh/complist for menu-select widget (was provided by zsh-fancy-completions)
+zmodload -i zsh/complist
 
-# set any compdefs
-# source ${0:h}/compdefs.zsh
+# Initialize completion system with 24-hour dump freshness check.
+# Full compinit (with compaudit) runs once per day; -C skips the fs scan every other startup.
+autoload -Uz compinit
+typeset _zcompdump="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/.zcompdump"
+mkdir -p "${_zcompdump:h}"
+setopt EXTENDED_GLOB
+if [[ -n ${_zcompdump}(#qN.mh+24) ]]; then
+    compinit -i -d "$_zcompdump"
+else
+    compinit -C -d "$_zcompdump"
+fi
+# Compile zcompdump to .zwc for faster loading on next startup (~instant for 57KB)
+# zsh: [[ nonexistent -ot file ]] is false, so must check existence explicitly
+[[ ! -f "${_zcompdump}.zwc" || "${_zcompdump}.zwc" -ot "$_zcompdump" ]] && zcompile "$_zcompdump"
+unset _zcompdump
 
 if (( $+commands[tput] ));then
   bold=$(tput bold)
