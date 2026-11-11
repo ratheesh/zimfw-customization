@@ -67,13 +67,13 @@ zstyle ':completion:*:matches' group yes
 zstyle ':completion:*:options' description yes
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' verbose yes
-zstyle ':completion:*:options' auto-description $'   %F{8}🙤 %F{red}%d%F{8}🙦 %f'
-zstyle ':completion:*:corrections' format $'    %F{1}🙤 %F{green}%d (errors: %e)%F{1}🙦 %f'
-zstyle ':completion:*:descriptions' format $'    %F{1}🙤 %F{cyan}%d%F{1}🙦 %f'
-zstyle ':completion:*:messages' format $'    %F{1}🙤 %F{purple}%d%F{1}🙦 %f'
-zstyle ':completion:*:warnings' format $'    %F{8}🙤 %F{red} no matches found %F{8}🙦 %f'
-zstyle ':completion:*:default' list-prompt $'    %S%M matches%s'
-zstyle ':completion:*' format $'    %F{1}🙤 %{\e[0;3m%}%F{102}%d%{\e[0m%}%F{1}🙦 %f'
+zstyle ':completion:*:options' auto-description $'%{\e[2K\r%}   %F{8}-•- %F{red}%d%F{8} -•- %f'
+zstyle ':completion:*:corrections' format $'%{\e[2K\r%}    %F{1}-•- %F{green}%d (errors: %e)%F{1} -•- %f'
+zstyle ':completion:*:descriptions' format $'%{\e[2K\r%}    %F{1}-•- %F{cyan}%d%F{1}-•- %f'
+zstyle ':completion:*:messages' format $'%{\e[2K\r%}    %F{1}-•- %F{purple}%d%F{1}-•- %f'
+zstyle ':completion:*:warnings' format $'%{\e[2K\r%}    %F{8}-•- %F{red} no matches found %F{8} -•- %f'
+zstyle ':completion:*:default' list-prompt $'%{\e[2K\r%}    %S%M matches%s'
+zstyle ':completion:*' format $'%{\e[2K\r%}    %B%F{102}-%b%F{1}•%B%F{102}-%b %{\e[0;3m%}%F{3}%d%{\e[0m%} %B%F{102}-%b%F{1}•%B%F{102}-%b %f'
 
 # Show message while waiting for completion
 # zstyle ':completion:*' show-completer true
